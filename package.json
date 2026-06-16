@@ -1,0 +1,24 @@
+{
+  "name": "spiced-voice-agent",
+  "version": "1.0.0",
+  "description": "Trasforma le note vocali dei rep in dati SPICED strutturati, validati e sincronizzati nel CRM",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start":       "node server.js",
+    "quality-check": "node -e \"import('./agent/quality_check.js').then(m=>m.runSpicedQualityCheck())\"",
+    "db:setup":    "psql $DATABASE_URL -f sql/schema.sql",
+    "lint":        "eslint . --ext .js",
+    "test":        "node --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.36.0",
+    "express":           "^4.19.2",
+    "node-cron":         "^3.0.3",
+    "pg":                "^8.11.3",
+    "dotenv":            "^16.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0"
+  }
+}
