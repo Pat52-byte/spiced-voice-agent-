@@ -1,0 +1,42 @@
+# Contributing
+
+Grazie per voler contribuire a questo progetto. Alcune regole specifiche prima di apri una PR.
+
+## Cambi allo schema SPICED
+
+Lo schema in `agent/spiced_processor.js` è usato in tre punti che devono restare sincronizzati:
+
+1. Il tool definition (`EXTRACTION_TOOL`) — cosa Claude può estrarre
+2. Lo schema SQL (`sql/schema.sql`) — dove viene salvato
+3. Il field mapping CRM (`crm/spiced_writeback.js`) — dove viene scritto nel CRM
+
+**Apri sempre un issue prima** di modificare un campo esistente o aggiungerne uno nuovo. Un cambio qui ha effetti a cascata su tutti e tre i punti, più sul calcolo del `quality_score`. Le PR che modificano lo schema senza un issue di discussione collegato verranno chiuse.
+
+## Bug fix su connettori
+
+Per bug fix isolati su `slack/voice_handler.js`, `call-capture/zoom_meet_capture.js`, o `crm/spiced_writeback.js` che non toccano lo schema dati, le PR dirette sono benvenute.
+
+## Setup ambiente di sviluppo
+
+```bash
+npm install
+cp .env.example .env
+# compila con credenziali di test, non di produzione
+```
+
+Per testare modifiche all'estrazione SPICED senza Slack o Recall.ai, usa lo script in [README → Testing](README.md#testing).
+
+## Stile del codice
+
+- ES modules (`import`/`export`), non CommonJS
+- Async/await, non callback o `.then()` chain dove evitabile
+- Commenti in italiano per la logica di business specifica del dominio SPICED, in inglese per utility generiche — segui la convenzione già presente nel file che stai modificando
+
+## Prima di aprire la PR
+
+```bash
+npm run lint
+npm test
+```
+
+Includi nel testo della PR un esempio di trascrizione di input e l'output JSON atteso se la modifica cambia il comportamento dell'estrazione.
